@@ -1,0 +1,228 @@
+struct commit_batch_params *init_commit_batch_params()
+{
+	struct commit_batch_params *toReturn = (struct commit_batch_params*) calloc(1, sizeof(struct commit_batch_params));
+
+	return toReturn;
+}
+
+
+struct commit_batch_params *generate_commit_params(int securityParam, gmp_randstate_t state)
+{
+	struct commit_batch_params *toReturn = init_commit_batch_params();
+	mpz_t a;
+	mpz_init(a);
+
+	toReturn -> params = initBrainpool_256_Curve();
+
+	mpz_urandomm(a, state, toReturn -> params -> n);
+	// toReturn -> h = windowedScalarPoint(a, toReturn -> params -> g, toReturn -> params);
+	toReturn -> h = fixedPointMultiplication(gPreComputes, a, toReturn -> params);
+
+	return toReturn;
+}
+
+
+struct Peder_Hash_commit_box *init_commit_box()
+{
+	struct Peder_Hash_commit_box *c = (struct Peder_Hash_commit_box*) calloc(1, sizeof(struct Peder_Hash_commit_box));
+
+	return c;
+}
+
+
+struct Peder_Hash_commit_key *init_commit_key()
+{
+	struct Peder_Hash_commit_key *k = (struct Peder_Hash_commit_key*) calloc(1, sizeof(struct Peder_Hash_commit_key));
+
+	return k;
+}
+
+
+void create_commit_box_key(struct commit_batch_params *params, unsigned char *toCommit, int toCommitLen, gmp_randstate_t state,
+						struct Peder_Hash_commit_box *c, struct Peder_Hash_commit_key *k)
+{
+	struct eccPoint *g_x;
+	mpz_t r, *x = (mpz_t*) calloc(1, sizeof(mpz_t));
+	unsigned char *xHashed = sha256_full(toCommit, toCommitLen);
+
+
+	mpz_init(r);
+	mpz_init(*x);
+
+	convertBytesToMPZ(x, xHashed, 32);
+	g_x = fixedPointMultiplication(gPreComputes, *x, params -> params);
+
+	mpz_urandomm(r, state, params -> params -> n);
+
+	c -> u = fixedPointMultiplication(gPreComputes, r, params -> params);
+	c -> v = windowedScalarPoint(r, params -> h, params -> params);
+	groupOp_PlusEqual(c -> v, g_x, params -> params);
+
+	mpz_set(k -> r, r);
+	k -> x = toCommit;
+	k -> xLen = toCommitLen;
+
+	free(x);
+}
+
+
+struct Peder_Hash_commit_key *single_commit_Peder_Hash_C(struct commit_batch_params *params,
+												unsigned char *toCommit, int toCommitLen,
+												unsigned char *outputBuffer, int *bufferOffset,
+												gmp_randstate_t state)
+{
+	struct Peder_Hash_commit_box *c = init_commit_box();
+	struct Peder_Hash_commit_key *k = init_commit_key();
+
+	create_commit_box_key(params, toCommit, toCommitLen, state, c, k);
+
+
+	return k;
+}
+
+
+struct Peder_Hash_commit_box *single_commit_Peder_Hash_R(unsigned char *inputBuffer, int *bufferOffset)
+{
+	struct Peder_Hash_commit_box *c;
+	int tempOffset = *bufferOffset;
+
+	c = deserialise_Peder_Hash_Cbox(inputBuffer, &tempOffset);
+
+	*bufferOffset = tempOffset;
+
+	return c;
+}
+
+
+unsigned char *single_decommit_Peder_Hash_R(struct commit_batch_params *params, struct Peder_Hash_commit_box *c, struct Peder_Hash_commit_key *k, int msgLength, int *outputLength)
+{
+	struct eccPoint *u_test, *v_test, *g_x;
+	int validPointTest = 0;
+	mpz_t *x = (mpz_t*) calloc(1, sizeof(mpz_t));
+	unsigned char *xHashed = sha256_full(k -> x, msgLength);
+
+
+	mpz_init(*x);
+
+	convertBytesToMPZ(x, xHashed, 32);
+	g_x = fixedPointMultiplication(gPreComputes, *x, params -> params);
+
+
+	u_test = fixedPointMultiplication(gPreComputes, k -> r, params -> params);
+	v_test = windowedScalarPoint(k -> r, params -> h, params -> params);
+	groupOp_PlusEqual(v_test, g_x, params -> params);
+
+	// validPointTest |= checkValidECC_Point(params -> h, params -> params);
+	// validPointTest |= checkValidECC_Point(g_x, params -> params);
+	// validPointTest |= checkValidECC_Point(v_test, params -> params);
+	
+	if(0 != validPointTest || 0 != eccPointsEqual(u_test, c -> u) || 0 != eccPointsEqual(v_test, c -> v))
+	{
+		return NULL;
+	}
+
+
+	return k -> x;
+}
+
+
+int single_decommit_raw_Peder_Hash_R(struct commit_batch_params *params, struct Peder_Hash_commit_box *c, unsigned char *xBytes, mpz_t r, int msgLength)
+{
+	struct eccPoint *u_test, *v_test, *g_x;
+	int validPointTest = 0;
+	mpz_t *x = (mpz_t*) calloc(1, sizeof(mpz_t));
+	unsigned char *xHashed = sha256_full(xBytes, msgLength);
+
+
+	mpz_init(*x);
+
+	convertBytesToMPZ(x, xHashed, 32);
+	g_x = fixedPointMultiplication(gPreComputes, *x, params -> params);
+
+
+	u_test = fixedPointMultiplication(gPreComputes, r, params -> params);
+	v_test = windowedScalarPoint(r, params -> h, params -> params);
+	groupOp_PlusEqual(v_test, g_x, params -> params);
+
+	// validPointTest |= checkValidECC_Point(params -> h, params -> params);
+	// validPointTest |= checkValidECC_Point(g_x, params -> params);
+	// validPointTest |= checkValidECC_Point(v_test, params -> params);
+	
+	if(0 != validPointTest || 0 != eccPointsEqual(u_test, c -> u) || 0 != eccPointsEqual(v_test, c -> v))
+	{
+		return 1;
+	}
+
+
+	return 0;
+}
+
+
+
+int send_commit_batch_params(int writeSocket, int readSocket, struct commit_batch_params *params)
+{
+	unsigned char *curBytes, *paramsBytes, *hBytes;
+	int curLength, paramsLength, hLength, tempOffset = 0;
+
+
+	paramsBytes = serialiseECC_Params(params -> params, &paramsLength);
+
+	hLength = sizeOfSerial_ECCPoint(params -> h);
+	hBytes = (unsigned char *) calloc(hLength, sizeof(unsigned char));
+	serialise_ECC_Point(params -> h, hBytes, &tempOffset);
+
+	curLength = paramsLength + hLength;
+	curBytes = (unsigned char*) calloc(curLength, sizeof(unsigned char));
+
+	tempOffset = 0;
+	memcpy(curBytes + tempOffset, paramsBytes, paramsLength);
+	tempOffset += paramsLength;
+
+	memcpy(curBytes + tempOffset, hBytes, hLength);
+	tempOffset += hLength;
+
+
+	sendBoth(writeSocket, (octet*) curBytes, curLength);
+
+	free(curBytes);
+	free(paramsBytes);
+	free(hBytes);
+
+	return 1;
+}
+
+
+struct commit_batch_params *receive_commit_batch_params(int writeSocket, int readSocket)
+{
+	struct commit_batch_params *params = init_commit_batch_params();
+	int curLength, tempIndex = 0;
+	unsigned char *curBytes;
+
+
+	curBytes = receiveBoth(readSocket, curLength);
+
+	params -> params = deserialiseECC_Params(curBytes, &tempIndex);
+	params -> h = deserialise_ECC_Point(curBytes, &tempIndex);
+
+	free(curBytes);
+
+	return params;
+}
+
+
+struct commit_batch_params *setup_Peder_Hash_C(int writeSocket, int readSocket, int securityParam, gmp_randstate_t state)
+{
+	struct commit_batch_params *params = generate_commit_params(securityParam, state);
+
+	send_commit_batch_params(writeSocket, readSocket, params);
+
+	return params;
+}
+
+
+struct commit_batch_params *setup_Peder_Hash_R(int writeSocket, int readSocket)
+{
+	struct commit_batch_params *params = receive_commit_batch_params(writeSocket, readSocket);
+
+	return params;
+}
