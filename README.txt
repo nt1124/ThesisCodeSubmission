@@ -8,6 +8,11 @@ Title : Secure Two Party Computation - A practical comparison of recent protocol
 
 
 *****************************
+	=== Dependancies ===
+
+	You will require libgmp-dev and lib-real-time (lrt) to compile.
+	OpenMP and AES-NI are optional and provide speed ups.
+
 
 	=== Build Command ===
 
