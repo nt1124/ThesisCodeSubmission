@@ -145,7 +145,7 @@
 
 			We compare any protocol to the \emph{ideal} execution, in which the parties submit their inputs to a universally trusted and incorruptible external party via secure channels. This trusted party then computes the value of the function and returns the output to the relevant parties.\\
 
-			Informally we say that the protocol is secure if no adversary can attack the protocol with more success than they can achieve against the ideal model. Formal security proofs are based upon the notion of simulation.
+			Informally we say that the protocol is secure if no adversary can attack the protocol with more success than they can achieve against the ideal model. Formal security proofs are based upon the notion of simulation.\\
 
 			Astute readers may have already noticed that some functions inherently leak information about the inputs of the other parties. For example in a two-party addition both parties can easily recover the other party's input after the computation has been run by subtracting their own input from the output. In these cases SMC is not at fault so we do not concern ourselves.\\
 
@@ -156,7 +156,7 @@
 			Having established the goals of the adversary and how we can measure if said adversary has a valid attack, we next deal with the capabilities of the adversary. We use three main models to describe the capability of the adversary.
 
 			\subsection{Semi-honest Adversary}
-				The Semi-honest adversary is the weakest adversary, with very limited capabilities. The Semi-honest adversary has also been referred to as ``honest but curious'', because in this case the adversary is not allowed to deviate from the established protocol (i.e. they are honest), but at the same time they will do their best to compromise one of the aforementioned security properties by examining the data they have legitimate access to. This is in some ways analogous to the classic ``passive'' adversary.
+				The Semi-honest adversary is the weakest adversary, with very limited capabilities. The Semi-honest adversary has also been referred to as ``honest but curious'', Such an adversary is not allowed to deviate from the established protocol (i.e. they are honest), but at the same time they will do their best to compromise one of the aforementioned security properties by examining the data they have legitimate access to. This is in some ways analogous to the classic ``passive'' adversary.
 
 				\subsubsection{Example}
 
@@ -164,7 +164,7 @@
 
 					So take the example of parties who wish to decide whether they should cooperate on a particular project. More concretely maybe two drug companies are considering cooperating in a particular area of research, but first need to establish that they have the combined expertises required. To do this without unnecessarily revealing information about their capabilities to the other company they might run a legally binding Secure Computation.\\
 					
-					In this case undetected cheating could lead to the parties committing to a project they do not have the expertises to complete, this is clearly not in the interests of the parties so it is reasonable to assume that both parties will act honestly.\\
+					In this case undetected cheating by a party could lead that party legally committing to a project they do not have the expertises to complete, this is clearly not in the interests of the parties so it is reasonable to assume that both parties will act honestly.\\
 
 
 
@@ -178,9 +178,11 @@
 
 
 			\subsection{Covert Adversary}
-				The Covert adversary model is very similar to the Malicious model, again bounded by polynomial time with freedom to ignore the protocol. However, in this case the adversary is adverse to being caught cheating and is therefore slightly weaker than the Malicious adversary. A Covert adversary will accept a certain probability of detection, this probability represents the point at which the expected benefit of cheating successfully outweighs the expected punishment for getting caught, effectively a game theory problem \cite{WhenGameTheoryMetSMC}.\\
+				The Covert adversary model is very similar to the Malicious model, again bounded by polynomial time with freedom to ignore the protocol. However, in this case the adversary is adverse to being caught cheating and is therefore slightly weaker than the Malicious adversary.\\
 
-				We call the probability that a Covert adversary will be caught the ``deterrent probability'', usually denoted using $\epsilon$. Often protocols providing security against Covert adversaries take a Security parameter which varies the probability of detecting cheating.
+				A Covert adversary will accept a certain probability of detection, this probability represents the point at which the expected benefit of cheating successfully outweighs the expected punishment for getting caught, effectively a game theory problem \cite{WhenGameTheoryMetSMC}.\\
+
+				We call the probability that a Covert adversary will be \emph{caught} the ``deterrent probability'', usually denoted using $\epsilon$. However, we often talk about this problem from the viewpoint of an honest party, where we try to minimises the probablility a cheating adversary will avoid detection. Often protocols providing security against Covert adversaries take a Security parameter which varies the probability of detecting cheating.
 
 				\subsubsection{Example} 
 
@@ -189,7 +191,7 @@
 					In this case a sufficiently high deterrent probability will mean the chance of being caught is so high that the risk of being caught outweighs the benefits to be gained by cheating.
 
 			\subsection{Actively Secure}
-				We refer to the second and third adversary as `Active', denoting the fact that they can take an active role in trying to subvert the security of the computation. We call protocols that are secure in the presence of such active adversaries `Actively Secure'.
+				We refer to the second and third adversaries as `Active', denoting the fact that they can take an active role in trying to subvert the security of the computation. We call protocols that are secure in the presence of such active adversaries `Actively Secure'.
 
 		\section{Applications of SMC} \label{sub:Applications}
 			Here we take time to motivate the study of SMC by giving several actual or proposed applications.
@@ -210,7 +212,7 @@
 				Such a service is in development by Dyadic Security who provide a technical primer on applying SMC to this problem \cite{DYADIC_MPC_Primer} (full disclosure, my supervisor Prof. Nigel Smart is a co-founder of Dyadic).
 
 			\subsection{PROCEED - Computation on encrypted data} \label{sub2:PROCEED_DARPA}
-				Recently US Defence Advanced Research Projects Agency (DARPA) ended a programme called PROCEED. The eventual goal being the ability to efficiently perform computations on encrypted data without knowledge of the data. This could be used by companies such as Google to continue to provide services requiring computation on personal data without intruding on the privacy on their users.\\
+				Recently US Defence Advanced Research Projects Agency (DARPA) ended a programme called PROCEED and will soon be beginning a successor programme. The eventual goal is ability to efficiently perform computations on encrypted data without knowledge of the data. This could be used by companies such as Google to continue to provide services requiring computation on personal data without intruding on the privacy on their users.\\
 
 				The PROCEED program is not restricted to SMC, it also considers Fully Homomorphic Encryption. At present DARPA claim that SMC slows the computation by at least 2 orders of magnitude whilst FHE slows it by nearly 10 orders of magnitude \cite{DARPAPROceed}. 
 
@@ -219,7 +221,7 @@
 		Here we detail two of the two main common components of a Yao Garbled Circuits based system. The Yao Garbled Circuits themselves and Oblivious transfer.
 
 		\section{Oblivious Transfer} \label{sec:OT_Intro}
-			Oblivious Transfers are vitally important for SMC and in particular Yao's Protocol that we shall be looking at later. Oblivious Transfers protocols allow for one party(the Receiver) to get one out-of two values from another party (the Sender). The Receiver is oblivious to the other value, and the Sender is oblivious to which value the Receiver received.\\
+			Oblivious Transfers are vitally important for SMC and in particular Yao's Protocol that we shall be looking at later. Oblivious Transfers protocols allow for one party(the Receiver) to get one out of two values from another party (the Sender). The Receiver is oblivious to the other value, and the Sender is oblivious to which value the Receiver received. It should be noted that we only concern ourselves with 1-out-of-2 Oblivious Transfers, but k-out-of-n Oblivious Transfers for any $k < n$.\\
 
 			We shall first talk abstractly about what functionality Oblivious Transfers should have before then giving two concrete examples of how to perform Oblivious Transfer.\\
 
@@ -240,7 +242,7 @@
 					Outputs : $\emptyset$\\
 				\end{minipage}
 
-				\caption{ Formal definition of the functionality of a one-out-of-two OT protocol.\label{fig:OTformalDef}}
+				\caption{ Formal definition of the functionality of a one-out-of-two OT protocol. The Receiver should learn nothingabout the value of $x_{1-b}$ and the Sender should learn nothing about $b$.\label{fig:OTformalDef}}
 			\end{figure}
 
 			The security of Oblivious Transfers is defined in a similar way to that of SMC, the focus is on Semi-honest(passive) and Malicious(active) adversaries. Security against these adversaries is usually either computational or statistical.\\
@@ -1779,14 +1781,14 @@
 
 		One of the most significant areas HKE is better than the other protocols is in proving the consistency of the Builder's inputs. Even when done in parallel the Extended Diffie-Hellman Tuple proof approach takes considerably longer then the logarithm approach.\\
 
-		To the best of our knowledge we provide the first implementation of Cut and Choose Oblivious Transfer, both the original and modified versions. While CnC OT sounds good on paper, allowing us to fold the commitments to the input keys into the OT itself, in practise the Zero Knowledge proofs are very expensive and their cost outweigh the gains of removing the commitments.\\
-
-		
+		To the best of our knowledge we provide the first implementation of Cut and Choose Oblivious Transfer, both the original and modified versions. While CnC OT sounds good on paper, allowing us to fold the commitments to the input keys into the OT itself, in practise the Zero Knowledge proofs are very expensive and their cost outweigh the gains of removing the commitments.
 
 		\section{Future Work}
-			We have pointed the reader to several areas where we believe our implementation could be improved, notably the Zero Knowledge Proof of Builder's input consistency. But also optimisations such as the garbled row reduction, hashed circuit checks and the Free-XOR communication reduction.\\
+			We have pointed the reader to several areas where we believe our implementation could be improved, notably the Zero Knowledge Proof of Builder's input consistency. But also optimisations such as the garbled row reduction, hashed circuit checks and the Free-XOR communication reduction. Furthermore there are several places where we have not parallelised sections of code and future users of this implementation could remedy this to improve performance.\\
 
 			Additionally there are some corner cases our prototype implementation has not addressed, in particular the case where one party has input size zero. This is a somewhat dubious corner case though as if a party has no inputs to the computation there is little reason for a secure computation.\\
+
+			Finally, though not for the weak-hearted, future users of this implementation could make this implementation secure in a real world setting, implementation secure communication channels etc.\\
 
 			There are also several further experiments we believe would be very helpful, a few particular ones are listed below,
 
@@ -1854,7 +1856,12 @@
 			\emph{PROCEED Program webpage}.
 			\url{http://www.darpa.mil/Our_Work/I2O/Programs/PROgramming_Computation_on_EncryptEd_Data_%28PROCEED%29.aspx}
 
-			
+		\bibitem{}
+			Y. Lindell,
+			\emph{Secure Two-Party Computation in Practice},
+			Lecture given at Technion-Israel Institute of Technology TCE Summer School 2013,
+			\url{https://youtu.be/YvDmGiNzV5E}
+
 		\bibitem{SMC_Is_Practical}
 			B. Pinkas, T. Schneider, N. P. Smart and S. C. Williams.
 			\emph{Secure Two-Party Computation is Practical},
@@ -2025,18 +2032,66 @@
 
 				Communication benchmarks will probably will elicit the most interest from readers intending on implementing these protocols themselves as the nature of our test environment de-emphasise the communication costs due to the close proximity of the two test machines.\\
 
-		% 				\begin{figure}
-		% 					\begin{tabular}{ c | c | c }
-		% 						Block Size & Time Taken (seconds) &  \\
-		% 						\hline
-		% 						$100,000$ & 0 &  \\
-		% 						$10,000,000$ & 0 &  \\
-		% 					\end{tabular}
-		% 				\end{figure}
+				\textbf{Raw Communications}
+				\begin{figure}[!ht]
+					\begin{tabular}{| c || c | c | c | c | }
+						\hline
+						& \multicolumn{3}{c}{Num Blocks} & \\
+						\hline
+						Block Size (bytes) & \textbf{100} & \textbf{1,000} & \textbf{10,000} & \textbf{100,000} \\
+						\hline
+						\hline
+						\textbf{1,000} 	& 0.0015 & 0.0085 & 0.0860 & 0.8595\\
+						\hline
+						\textbf{10,000} 	& 0.0085 & 0.0856 & 0.8564 & 8.5641\\
+						\hline
+						\textbf{100,000} 	& 0.0857 & 0.8562 & 8.5611 & 85.6110\\
+						\hline
+					\end{tabular}
+					\caption{A table showing how long it took to Receive (Sending times were almost identical) varying amounts of raw bytes. We vary the number of blocks sent and the number of bytes in each block. \label{fig:RawCommsBenchmark}}
+				\end{figure}
 
+				\textbf{Elliptic Curve Group Elements}
+				\begin{figure}[!ht]
+					\begin{tabular}{| c || c | c | c | }
+						\hline
+						& \multicolumn{2}{c}{Num Blocks} & \\
+						\hline
+						Block Size (points) & \textbf{100} & \textbf{1,000} & \textbf{10,000} \\
+						\hline
+						\hline
+						\textbf{100} 	& 0.0077 & 0.0585 & 0.6247 \\
+						\hline
+						\textbf{1,000} & 0.0644 & 0.6243 & 6.2516 \\
+						\hline
+						\textbf{10,000} & 0.6292 & 0.2545 & 62.4988 \\
+						\hline
+					\end{tabular}
+					\caption{A table showing how long it took to Receive (Sending times were almost identical) varying numbers of Elliptic Curve group elements. We vary the number of blocks sent and the number of bytes in each block. \label{fig:GroupElemsCommsBenchmark}}
+				\end{figure}
+
+
+			\pagebreak
 			\section{Elliptic Curve Group Operations}
 
 				We benchmark point addition, point doubling, point multiplication and fixed point multiplication. The fixed point multiplication includes the pre-computation of the relevant windows.
+
+
+				\begin{description}
+					\item[Point Doubling] \hfill \\
+						$0.249$ seconds for $50,000$.
+
+					\item[Point Addition] \hfill \\
+						$0.219$ seconds for $50,000$.
+
+					\item[Fixed Point Multiplication] \hfill \\
+						$2.876$ seconds for $5,000$. $0.575$ Milliseconds per single multiplication.
+
+					\item[Windowed Point Multiplication] \hfill \\
+						$7.665$ seconds for $5,000$. $1.533$ Milliseconds per single multiplication.
+				\end{description}
+
+				Note that fixed point multiplications are about three times faster.
 
 
 			\section{Circuit Building}

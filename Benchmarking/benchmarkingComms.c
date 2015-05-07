@@ -1,5 +1,4 @@
 
-
 void benchmarkRawCommSender(char *portNumStr)
 {
 	struct timespec timestamp_0, timestamp_1;
@@ -13,14 +12,14 @@ void benchmarkRawCommSender(char *portNumStr)
 	unsigned char **inputs;
 	int i, j, k;
 
-	int numBlocks = 100, blockSize = 1000, baseBlockSize = 1000;
+	int numBlocks = 100, blockSize = 1000, baseBlockSize = 1000, maxNumBlocks = 1000;
 
 
 	isaacCTX = (randctx*) calloc(1, sizeof(randctx));
 	getIsaacContext(isaacCTX);
 
-	inputs = (unsigned char **) calloc(numBlocks * 100, sizeof(unsigned char *));
-	for(i = 0; i < numBlocks * 100; i ++)
+	inputs = (unsigned char **) calloc(maxNumBlocks, sizeof(unsigned char *));
+	for(i = 0; i < maxNumBlocks; i ++)
 	{
 		inputs[i] = generateIsaacRandBytes(isaacCTX, blockSize * 100, blockSize * 100);
 	}
@@ -28,7 +27,7 @@ void benchmarkRawCommSender(char *portNumStr)
 	set_up_server_socket(destWrite, writeSocket, mainWriteSock, writePort);
 	set_up_server_socket(destRead, readSocket, mainReadSock, readPort);
 
-	for(i = 0; i < 2; i ++)
+	for(i = 0; i < 4; i ++)
 	{
 		blockSize = baseBlockSize;
 
@@ -39,7 +38,7 @@ void benchmarkRawCommSender(char *portNumStr)
 
 			for(k = 0; k < numBlocks; k ++)
 			{
-				sendBoth(writeSocket, inputs[k], blockSize);
+				sendBoth(writeSocket, inputs[k % maxNumBlocks], blockSize);
 			}
 
 			c_1 = clock();
@@ -83,7 +82,7 @@ void benchmarkRawCommReceiver(char *ipAddress, char *portNumStr)
 	set_up_client_socket(readSocket, ipAddress, readPort, serv_addr_read);
 	set_up_client_socket(writeSocket, ipAddress, writePort, serv_addr_write);
 
-	for(i = 0; i < 2; i ++)
+	for(i = 0; i < 4; i ++)
 	{
 		blockSize = baseBlockSize;
 
@@ -151,8 +150,8 @@ void benchmark_ECC_PointSender(char *portNumStr)
 
 
 
-	inputPoints = (struct eccPoint **) calloc(pointsPerBlock * 100, sizeof(struct eccPoint *));
-	for(i = 0; i < pointsPerBlock * 100; i ++)
+	inputPoints = (struct eccPoint **) calloc(pointsPerBlock * 1000, sizeof(struct eccPoint *));
+	for(i = 0; i < pointsPerBlock * 1000; i ++)
 	{
 		mpz_urandomm(tempExp, *state, params -> n);
 		inputPoints[i] = fixedPointMultiplication(localPreComputes, tempExp, params);

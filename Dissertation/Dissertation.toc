@@ -8,7 +8,7 @@
 \contentsline {subsubsection}{Example}{3}{section*.11}
 \contentsline {subsection}{\numberline {2.2.3}Covert Adversary}{3}{subsection.2.2.3}
 \contentsline {subsubsection}{Example}{3}{section*.12}
-\contentsline {subsection}{\numberline {2.2.4}Actively Secure}{3}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.4}Actively Secure}{4}{subsection.2.2.4}
 \contentsline {section}{\numberline {2.3}Applications of SMC}{4}{section.2.3}
 \contentsline {subsection}{\numberline {2.3.1}Secret Auctions - Danish Beets}{4}{subsection.2.3.1}
 \contentsline {subsection}{\numberline {2.3.2}Distributed secrets}{4}{subsection.2.3.2}
@@ -78,16 +78,16 @@
 \contentsline {section}{\numberline {A.2}Running}{42}{section.1.A.2}
 \contentsline {chapter}{\numberline {B}Benchmarking components}{44}{Appendix.1.B}
 \contentsline {section}{\numberline {B.1}Communications}{44}{section.1.B.1}
-\contentsline {section}{\numberline {B.2}Elliptic Curve Group Operations}{44}{section.1.B.2}
-\contentsline {section}{\numberline {B.3}Circuit Building}{44}{section.1.B.3}
-\contentsline {chapter}{\numberline {C}Implementation Details}{45}{Appendix.1.C}
-\contentsline {section}{\numberline {C.1}Yao Garbled Circuits implementation}{45}{section.1.C.1}
-\contentsline {subsection}{\numberline {C.1.1}Tillich-Smart Circuit Files}{45}{subsection.1.C.1.1}
-\contentsline {subsection}{\numberline {C.1.2}Creating binary circuits}{46}{subsection.1.C.1.2}
-\contentsline {section}{\numberline {C.2}Elliptic Curve implementation}{46}{section.1.C.2}
-\contentsline {subsection}{\numberline {C.2.1}Elliptic Curve point scalar multiplication}{47}{subsection.1.C.2.1}
-\contentsline {subsubsection}{Fixed Point Scalar Multiplication}{47}{section*.30}
-\contentsline {section}{\numberline {C.3}Verifiable Secret Sharing and Multi-precision Polynomials}{48}{section.1.C.3}
-\contentsline {subsection}{\numberline {C.3.1}Multi-precision polynomials}{48}{subsection.1.C.3.1}
-\contentsline {subsection}{\numberline {C.3.2}Shamir Secret Sharing}{48}{subsection.1.C.3.2}
-\contentsline {subsection}{\numberline {C.3.3}Verifiable Secret Sharing}{49}{subsection.1.C.3.3}
+\contentsline {section}{\numberline {B.2}Elliptic Curve Group Operations}{45}{section.1.B.2}
+\contentsline {section}{\numberline {B.3}Circuit Building}{45}{section.1.B.3}
+\contentsline {chapter}{\numberline {C}Implementation Details}{46}{Appendix.1.C}
+\contentsline {section}{\numberline {C.1}Yao Garbled Circuits implementation}{46}{section.1.C.1}
+\contentsline {subsection}{\numberline {C.1.1}Tillich-Smart Circuit Files}{46}{subsection.1.C.1.1}
+\contentsline {subsection}{\numberline {C.1.2}Creating binary circuits}{47}{subsection.1.C.1.2}
+\contentsline {section}{\numberline {C.2}Elliptic Curve implementation}{47}{section.1.C.2}
+\contentsline {subsection}{\numberline {C.2.1}Elliptic Curve point scalar multiplication}{48}{subsection.1.C.2.1}
+\contentsline {subsubsection}{Fixed Point Scalar Multiplication}{48}{section*.30}
+\contentsline {section}{\numberline {C.3}Verifiable Secret Sharing and Multi-precision Polynomials}{49}{section.1.C.3}
+\contentsline {subsection}{\numberline {C.3.1}Multi-precision polynomials}{49}{subsection.1.C.3.1}
+\contentsline {subsection}{\numberline {C.3.2}Shamir Secret Sharing}{49}{subsection.1.C.3.2}
+\contentsline {subsection}{\numberline {C.3.3}Verifiable Secret Sharing}{50}{subsection.1.C.3.3}
