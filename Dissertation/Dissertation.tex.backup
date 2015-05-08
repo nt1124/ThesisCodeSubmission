@@ -52,9 +52,9 @@
 
 			  For several of these protocols our implementation is, to the best of our knowledge, the first. As such until now we have had only theoretical comparisons of these protocols, making it difficult to know which approach is the most promising and deserving of further research.\\
 
-			  In particular we have implemented the protocols described in \cite{LindellAndPinkas2011}, \cite{Lindell_CnC_2013} and \cite{Katz_Symm_CnC_2013} and additionally we experiment with modifying \cite{Lindell_CnC_2013} to use \cite{Katz_Symm_CnC_2013} instead of \cite{LindellAndPinkas2011} as a sub-protocol.\\
+			  In particular we have implemented the protocols described in \cite{LindellAndPinkas2011} (Lindell-Pinkas 2010), \cite{Lindell_CnC_2013} (Lindell 2013) and \cite{Katz_Symm_CnC_2013} (HKE) and additionally we experiment with modifying \cite{Lindell_CnC_2013} to use \cite{Katz_Symm_CnC_2013} instead of \cite{LindellAndPinkas2011} as a sub-protocol (L-HKE).\\
 
-			  We had limited success with modifying the Lindell 2013 protocol's sub-computation on circuits with small input sizes. Whilst our modified protocol ran on the AES circuit in about $\frac{2}{3}$ of the time taken by Lindell 2013 we believe most of this is due another improvement, also inspired by the Huang et al. paper.\\
+			  We had limited success with modifying the Lindell 2013 protocol's sub-computation on circuits with small input sizes. Whilst our modified protocol ran on the AES circuit in about $\frac{2}{3}$ of the time taken by Lindell 2013 we believe most of this is due not to the sub-computation but another improvement, also inspired by the Huang et al. paper.\\
 
 			  We found that the Huang-Katz-Evans protocol using Symmetric cut and choose was by far and away more efficient in terms of computational resources needed. The Lindell 2013 protocol, while considerably slower than that of Huang et al. had lower bandwidth usage and the computational costs were heavily skewed towards the Builder.\\
 
@@ -64,7 +64,7 @@
 			\subsubsection*{Summary of Achievements}
 				\begin{itemize}
 					\item We implemented the protocols described in \cite{LindellAndPinkas2011, Lindell_CnC_2013}, to the best of our knowledge these are the first implementations of these protocols.
-					\item We implemented the protocol described in \cite{Katz_Symm_CnC_2013}. Huang et al. have produced an implementation in Java this cannot be fairly compared to my C implementations of the other protocols. Furthermore they only performed preliminary experiments, we provide more extensive results.
+					\item We implemented the protocol described in \cite{Katz_Symm_CnC_2013}. Huang et al. have produced an implementation in Java this cannot be fairly compared to my C implementations of the other protocols. Furthermore they only performed preliminary experiments, we provide more extensive results with detailed measurements and breakdown.
 					\item We experimented with modifying the sub-protocol used for the Secure computation to detect cheating in \cite{Lindell_CnC_2013}, exchanging the use of \cite{LindellAndPinkas2011} for \cite{Katz_Symm_CnC_2013} and making other changes as necessary for this approach to work.
 					\item We have argued informally for the security of the modified protocol.
 					\item We have run practical comparisons of all the implemented protocols on a variety of circuits/computations and provided some analysis of the results.
@@ -92,7 +92,7 @@
 
 			Throughout take $S$ to be a statistical security parameter.\\
 
-			We abbreviate to the protocol put forward by Lindell and Pinkas in \cite{LindellAndPinkas2011} as LP-2010. Similarly we abbreviate Lindell's protocol from \cite{Lindell_CnC_2013} to L-2013 and abbreviate the protocol given by Huang, Katz and Evans in \cite{Katz_Symm_CnC_2013} to HKE.
+			We abbreviate the protocol put forward by Lindell and Pinkas in \cite{LindellAndPinkas2011} as LP-2010. Similarly we abbreviate Lindell's protocol from \cite{Lindell_CnC_2013} to L-2013 and abbreviate the protocol given by Huang, Katz and Evans in \cite{Katz_Symm_CnC_2013} to HKE.
 
 		\section*{Disclaimer}
 			Here we give a disclaimer. Our implementations are prototypes for the purposes of comparing the performance of the protocols. Whilst we have implemented the protocols faithfully we have not dealt with some non-protocol related issues such as establishing a secure authenticated communication channel between parties.\\
@@ -111,9 +111,9 @@
 
 		A commonly used example is the Millionaires problem. A group of rich persons wish to find out who among them is the richest, but do not wish to tell each other how much they are worth. Here the parties are the rich individuals, each party's inputs is their net worth and the function will return the identifier of the individual with the greatest input. Additionally, at the end of the computation no party should be able to divine anything about another party's inputs, apart from what can be inferred from their own input and the output.\\
 
-		For many years Yao's protocol \cite{YaoOriginal} has been the most attractive avenue of theoretical research, mainly due to its conceptual simplicity and constant round nature. In particular recent work has endeavoured to produce variants of Yao's protocol that can provide security in the presence of malicious adversaries (\cite{LindellAndPinkas2007}, \cite{LindellAndPinkas2011}, \cite{Lindell_CnC_2013}, \cite{Katz_Symm_CnC_2013}, \cite{OnCommittedInputs}, \cite{LEGO_Paper}, \cite{MiniLEGO}) and to improve the efficiency of the original protocol itself (\cite{SMC_Is_Practical}, \cite{FreeXOR}).\\
+		For many years Yao's protocol \cite{YaoOriginal} has been the most attractive avenue of theoretical research, mainly due to its conceptual simplicity and constant round nature. In particular recent work has endeavoured to produce variants of Yao's protocol that can provide security in the presence of malicious adversaries \cite{LindellAndPinkas2007, LindellAndPinkas2011, Lindell_CnC_2013, Katz_Symm_CnC_2013, OnCommittedInputs, LEGO_Paper, MiniLEGO} and to improve the efficiency of the original protocol itself \cite{SMC_Is_Practical, FreeXOR}.\\
 
-		We provide implementations for several of the more recent protocols, in order to run experiments to measure and compare their performance. For two of the three published protocols we provide the first ever implementation, the fourth protocol is of our own devising, so again we provide the first implementation.\\
+		We provide prototype implementations for several of the more recent protocols in order to run experiments to measure and compare their performance. For two of the three published protocols we provide the first ever implementation, the fourth protocol is of our own devising, so again we provide the first implementation.\\
 
 		As important as theoretical comparisons are they can only tell us so much. For example in \cite{Lindell_CnC_2013} Lindell explicitly compares the Lindell 2013 protocol with the Lindell-Pinkas 2010 protocol. He notes how the L-2013 protocol trades off more exponentiations for fewer symmetric encryptions and less bandwidth usage. However this theoretical comparison does not tell us if this trade off is worth it. Answering questions like this is the primary purpose of this thesis.\\
 
@@ -124,7 +124,6 @@
 			\item We also provide an implementation of the protocol described in \cite{Katz_Symm_CnC_2013}. 
 			\item We put forward and implement a modification of \cite{Lindell_CnC_2013} using our implementation of \cite{Katz_Symm_CnC_2013} for the sub-computation rather than \cite{LindellAndPinkas2011} as originally proposed. Further we informally argue this modification maintains security.
 			\item We measure the performance of each protocol on several of the classic SMC benchmark computations and give analysis of the results.
-
 		\end{itemize}
 
 		% In this paper we shall be producing implementations of several recently proposed protocols based on Yao's protocol and, several of which are as yet unimplemented, producing a practical comparison of them. The purpose being to explore which protocol suggests the most potential, allowing future research to be directed in the most promising direction.
@@ -133,6 +132,7 @@
 
 
 	\chapter{Background to Secure Multiparty Computation} \label{sec:BG_toSMC}
+
 		\section{Security Properties} \label{sub:SecurityProperties}
 			There are three main properties that we wish to achieve with any SMC protocol,
 			\begin{itemize}
@@ -153,10 +153,10 @@
 			Occasionally a fourth property is proposed, namely \emph{fairness}, meaning if one party gets their output then all parties get their output. However, generally this is ignored due being thought to be impossible outside a synchronous communication model as any party can stop participating in the protocol at any time.
 
 		\section{Security levels}\label{sub:SecurityLevels}
-			Having established the goals of the adversary and how we can measure if said adversary has a valid attack, we next deal with the capabilities of the adversary. We use three main models to describe the capability of the adversary.
+			Having established the goals of the adversary and how we can measure if said adversary has an attack, we next deal with the capabilities of the adversary. We use three main models to describe the capability of the adversary.
 
 			\subsection{Semi-honest Adversary}
-				The Semi-honest adversary is the weakest adversary, with very limited capabilities. The Semi-honest adversary has also been referred to as ``honest but curious'', Such an adversary is not allowed to deviate from the established protocol (i.e. they are honest), but at the same time they will do their best to compromise one of the aforementioned security properties by examining the data they have legitimate access to. This is in some ways analogous to the classic ``passive'' adversary.
+				The Semi-honest adversary is the weakest adversary, with very limited capabilities. The Semi-honest adversary has also been referred to as ``honest but curious''. Such an adversary is not allowed to deviate from the established protocol (i.e. they are honest), but at the same time they will do their best to compromise one of the aforementioned security properties by examining the data they have legitimate access to. This is in some ways analogous to the classic ``passive'' adversary.
 
 				\subsubsection{Example}
 
@@ -164,8 +164,7 @@
 
 					So take the example of parties who wish to decide whether they should cooperate on a particular project. More concretely maybe two drug companies are considering cooperating in a particular area of research, but first need to establish that they have the combined expertises required. To do this without unnecessarily revealing information about their capabilities to the other company they might run a legally binding Secure Computation.\\
 					
-					In this case undetected cheating by a party could lead that party legally committing to a project they do not have the expertises to complete, this is clearly not in the interests of the parties so it is reasonable to assume that both parties will act honestly.\\
-
+					In this case undetected cheating by a party could lead that party legally committing to a project they do not have the expertises to complete, this is clearly not in the interests of the parties so it is reasonable to assume that both parties will act honestly.
 
 
 			\subsection{Malicious Adversary}
@@ -174,7 +173,7 @@
 				\subsubsection{Example}
 					Security in the presence of malicious adversaries is much sought after, and is useful in many more scenarios. Suppose a pair of persons wish to compute the intersection of sets they each hold but only wish to reveal those elements in both sets, keeping the rest secret.\\
 
-					A malicious adversary might wish to reveal all of the elements in the other party's set. If the adversary can rig the condition in the computation checking whether an element is in both sets they can get all elements returned. Clearly in this case the adversary has something to gain and so we cannot count on the adversary being honest.\\
+					A malicious adversary might wish to reveal all of the elements in the other party's set. If the adversary can rig the condition in the computation checking whether an element is in both sets they can get all elements returned. Clearly in this case the adversary has something to gain and so we cannot count on the adversary being honest.
 
 
 			\subsection{Covert Adversary}
@@ -182,7 +181,7 @@
 
 				A Covert adversary will accept a certain probability of detection, this probability represents the point at which the expected benefit of cheating successfully outweighs the expected punishment for getting caught, effectively a game theory problem \cite{WhenGameTheoryMetSMC}.\\
 
-				We call the probability that a Covert adversary will be \emph{caught} the ``deterrent probability'', usually denoted using $\epsilon$. However, we often talk about this problem from the viewpoint of an honest party, where we try to minimises the probablility a cheating adversary will avoid detection. Often protocols providing security against Covert adversaries take a Security parameter which varies the probability of detecting cheating.
+				We call the probability that a Covert adversary will be \emph{caught} the ``deterrent probability'', usually denoted using $\epsilon$. However, we often talk about this problem from the viewpoint of an honest party, where we try to minimises the probability a cheating adversary will avoid detection. Commonly protocols providing security against Covert adversaries take a Security parameter which varies the probability of detecting cheating.
 
 				\subsubsection{Example} 
 
@@ -243,9 +242,10 @@
 				\end{minipage}
 
 				\caption{ Formal definition of the functionality of a one-out-of-two OT protocol. The Receiver should learn nothingabout the value of $x_{1-b}$ and the Sender should learn nothing about $b$.\label{fig:OTformalDef}}
+				
 			\end{figure}
 
-			The security of Oblivious Transfers is defined in a similar way to that of SMC, the focus is on Semi-honest(passive) and Malicious(active) adversaries. Security against these adversaries is usually either computational or statistical.\\
+			The security of Oblivious Transfers is defined in a similar way to that of Secure Mutliparty Computation, the focus is on Semi-honest(passive) and Malicious(active) adversaries.\\
 
 			A protocol is considered secure with regards to Semi-honest adversaries if neither a Semi-honest adversary in the sender role cannot learn anything about which value the receiver requested, nor can a Semi-honest adversary in the role of the Receiver learn anything about values other than the one it requested. The protocol being secure against Malicious adversaries is defined by the obvious extension of the Semi-honest case.\\
 
@@ -324,19 +324,19 @@
 
 			% THIS NEED TIDYING UP
 			\subsection{Peikert - Vaikuntanathan - Waters Oblivious Transfer} \label{sub:dualModeCryptoOT}
-				The basis of the Oblivious transfer protocol we shall be using comes from \cite{PVW_OT_2008}, in particular we shall be using the realisation of the dual-mode cryptosystem based on Decisional Diffie-Hellman problem. Whilst I shall not go into depth on this protocol we shall give a broad overview of the dual-mode cryptosystem.
+				The basis of the Oblivious transfer protocol we shall be using as the basis of the Oblivious Transfer in \cite{LindellAndPinkas2011, Lindell_CnC_2013} comes from \cite{PVW_OT_2008}. Specifically we shall be using the realisation of the dual-mode cryptosystem based on Decisional Diffie-Hellman problem. Whilst I shall not go into depth on this protocol we shall give a broad overview of the dual-mode cryptosystem.
 
 				\subsubsection{High level concepts}
-					The Peikert-Vaikuntanathan-Waters (PVW) OT has at its core the concept of a messy key. This is a key such that under encryption by this key all information about the plaintext is lost, moreover messy keys are indistinguishable from normal valid (\emph{neat}) keys that do not obliterate the plaintext. It does not take much to see how these could be useful for an Oblivious Transfer scheme.\\
+					The Peikert-Vaikuntanathan-Waters (PVW) OT has at its core the concept of a messy key. This is a key such that under encryption by this key all information about the plaintext is lost. Moreover messy keys are indistinguishable from normal valid (\emph{neat}) keys that do not obliterate the plaintext. It does not take much to see how these could be useful for an Oblivious Transfer scheme.\\
 
 					The PVW OT is constructed in such a way we can ensure one of the keys will be a messy key, whilst the other will be a neat key. Furthermore the Receiving party can control which key will be messy and which will be neat, allowing the Receiving party to choose which input to uncover.
 
 				\subsubsection{Dual-Mode Encryption}
-					In \cite{PVW_OT_2008} Peikert-Vaikuntanathan and Water's describe a new abstraction, a Dual-mode cryptosystem. This system requires a setup phase in which the parties produce a public \emph{Common Reference String} and potentially a trapdoor. Peikert et al. state that this trapdoor information is only needed for the security proof as such we will mostly ignore these details.\\
+					In \cite{PVW_OT_2008} Peikert, Vaikuntanathan and Water's describe a new abstraction, a Dual-mode cryptosystem. This system requires a setup phase in which the parties produce a public \emph{Common Reference String} and potentially a trapdoor. Peikert et al. state that this trapdoor information is only needed for the security proof as such we will mostly ignore these details.\\
 
-					The setup also chooses one of two modes (\emph{messy} and \emph{decryption}).. Once this setup is complete this cryptosystem is very similar to a normal Public Key system, with one major difference, Peikert et al. introduce the concept of encryption branches.\\
+					The setup also chooses one of two modes (\emph{messy} and \emph{decryption}). Once this setup is complete this cryptosystem is very similar to a normal Public Key system, with one major difference, namely the introduction of the concept of encryption branches.\\
 
-					The key generation algorithm takes a parameter $\sigma \in \{0, 1\}$, and returns a public/secret key pair. Similarly when encrypting using the public key produced by the key generation one must also specify a $b \in \{0, 1\}$.\\
+					The key generation algorithm takes a parameter $\sigma \in \{0, 1\}$, and returns a public/secret key pair. Similarly when encrypting using the public key produced by the key generation one must also specify some $b \in \{0, 1\}$.\\
 
 					Plaintexts can be decrypted if encrypted with $b = \sigma$ (the decryptable branch of $pk$), but plaintexts encrypted with $b \neq \sigma$ cannot be decrypted (we call this the messy branch of $pk$). Additionally when carrying out an encryption using a public key provided by the other party you cannot tell which branch is decryptable.\\
 
@@ -386,11 +386,11 @@
 
 					In particular we define $Randomise(g, h, g', h')$ as follows, choose $s, t \xleftarrow{\$} \mathbb{Z}_p$ independently of one another, then let $u = g^s \cdot h^t$ and $v = (g')^s \cdot (h')^t$.\\
 
-					A full proof that this instantiation of \emph{Randomise} is given in \cite{PVW_OT_2008}, suffice to say the main idea of the proof is to re-write $h$ as a power of $g$ which we can do as $g$ generates $G$.\\
+					A full proof that this is an instantiation of \emph{Randomise} is given in \cite{PVW_OT_2008}, suffice to say the main idea of the proof is to re-write $h$ as a power of $g$ as $g$ generates $G$.\\
 
 					Having defined the function \emph{Randomise} Peikert et al. next defined a simple asymmetric cryptosystem based on it.
 
-					\paragraph{DDH-Randomise Cryptosystem} As with all asymmetric cryptosystems we need to define three algorithms namely key generation, encryption and decryption. Peikert et al. described a cryptosystem based on \emph{Randomise} which we give in Figure \ref{fig:DDH_Cryptosystem}.
+					\paragraph{DDH-Randomise Cryptosystem} As with all asymmetric cryptosystems we need to define three algorithms. These algorithms are Key Generation, Encryption and Decryption. Peikert et al. described a cryptosystem based on \emph{Randomise} which we give in Figure \ref{fig:DDH_Cryptosystem}.
 
 					\begin{figure}[!htb]
 						\begin{mdframed}
@@ -404,7 +404,7 @@
 
 								The function computes $(u, v) \leftarrow Randomise(g, h, g', h')$ and then outputs the ciphertext $(u, v \cdot m)$.
 
-								\item \textbf{DDH-Dec}($sk$, $c$) - This function takes a ciphertext $c$ and a secret key $sk$, parse $c$ as $(c_0, c_1)$. Output a decryption $m' = c_1 / c_0^{sk}$.
+								\item \textbf{DDH-Dec}($sk$, $c$) - This function takes a ciphertext $c$ and a secret key $sk$. parse $c$ as $(c_0, c_1)$. Output a decryption $m' = c_1 / c_0^{sk}$.
 
 							\end{itemize}
 						\end{mdframed}
@@ -445,7 +445,9 @@
 	\section{Yao's Protocol} \label{sec:Yao_Circuits}
 
 		\subsection{Overview} \label{sub:Yao_Overview}
-			Yao garbled circuits are one of the primary avenues of research into Secure multi-party computation. Yao first proposed garbled circuits in \cite{YaoOriginal}. The two parties are designated the Builder and the Executor. The Builder then constructs a circuit representing the function the parties wish to compute, this circuit is ``garbled'' in such a way that it can still be executed.\\
+			Yao garbled circuits are one of the primary avenues of research into Secure multi-party computation, in particular two party computations. Yao first proposed garbled circuits in \cite{YaoOriginal}.\\
+
+			The two parties are designated the Builder and the Executor. The Builder then constructs a circuit representing the function the parties wish to compute, this circuit is ``garbled'' in such a way that it can still be executed.\\
 
 			This garbled circuit, hardcoded with the Builder's input data, is sent to the Executing party who then obtains the data representing its input from the Builder via Oblivious Transfer (for details on OT see Section  \ref{sec:OT_Intro}). The Executor then evaluates the circuit and obtains the output of the function.
 
@@ -457,20 +459,20 @@
 
 			$P_1$ garbles each wire by selecting two random keys of length $l$, for the wire $w_i$ call these keys $k_i^0$ and $k_i^1$. The length of these keys ($l$) can be considered a security parameter, and should correspond to the length of the key needed for the symmetric encryption scheme we'll be using later.\\
 
-			$P_1$ also generates a random permutation $\pi_i \in \{0, 1\}$ for each $w_i$. Note that this can be represented by XORing the bit to be permuted and the permutation. We define $c_i = \pi_i(b_i)$. The garbled value of the $i^{th}$ wire is then $k_i^{b_i} \Vert c_i$, we then represent our garbled truth table for the gate with the table indexed by the values for the $c_1$ and $c_2$.
+			$P_1$ also generates a random permutation $\pi_i \in \{0, 1\}$ for each $w_i$. Note that this can be done using XORs. We define $c_i = \pi_i(b_i)$. The garbled value of the $i^{th}$ wire is then $k_i^{b_i} \Vert c_i$, we then represent our garbled truth table for the gate with the table indexed by the values for the $c_1$ and $c_2$.
 
 			$$ c_1, c_2 : E_{k_1^{b_1}, k_2^{b_2}} (k_3^{ G(b_1, b_2) } \Vert c_3) $$
 
 			This table is referred to as the \emph{encrypted truth table}.\\
 
-			Where $E_{k_i, k_j}(m)$ is some encryption function taking the keys $k_i$ and $k_j$ and the plaintext $m$. Since the advent of AES-NI and the cheapness of using AES we will use AES with 128 bit keys to make this function. This is particularly convenient since AES-128 takes in inputs of size $128$ bits and produces an output of size $128$ bits.\\
+			Where $E_{k_i, k_j}(m)$ is some symmetric encryption function taking the keys $k_i$ and $k_j$ and the plaintext $m$. Since the advent of AES-NI and the consequential cheapness of using AES we will use AES with 128 bit keys to make this function. This is particularly convenient since AES-128 takes in inputs of size $128$ bits and produces an output of size $128$ bits.\\
 
 			Suppose that $AES_k(m)$ denotes the AES encryption of the plaintext $m$ under the 128 bit key $k$ and $AES^{-1}_k(c)$ denotes the decryption of ciphertext $c$ under key $k$. We define $E_K$ (and its inverse $D_K$) as follows,
 
 			$$ E_K(m) = AES_{k_1}( AES_{k_2}(m)) \textnormal{, where } K = \{k_1, k_2\}$$ 
 			$$ D_K(m) = AES^{-1}_{k_2}( AES^{-1}_{k_{1}}(m)) \textnormal{, where } K = \{k_1, k_2\}$$ 
 
-			This is the intuitive extension of AES to multiple keys, chaining the encryption under all of the keys in a set order.\\
+			This is the intuitive extension of AES to multiple keys, chaining the encryption under all of the keys in a set order. Decryption is similarly natural, chain decryptions using the same key set in reverse order.\\
 
 			Then $P_1$ sends this garbled version of the circuit to $P_2$. $P_1$ should send the garbling key for its input bit ($k_1^{b_1}$), the full encrypted truth table and $c_1 = \pi(b_1)$. $P_1$ should also send the permutations for each input wire owned by the Executor and for every output wire owned by $P_2$.\\
 
@@ -478,7 +480,7 @@
 
 			$P_2$ can then look up the entry in the encrypted truth table indexed by $c_1$ and $c_2$ and decrypt it using $D_{k_1^{b_1}, k_2^{b_2}}(\cdot)$. This will give $P_2$ a value for $k_3^{G(b_1, b_2)} \Vert c_3$. If this is an output gate then $P_2$ can extract a value for $G(b_1, b_2)$ by using $\pi_3^{-1}$.\\
 
-			This can be extended to a full circuit, the input wires belonging to the circuits builder are hard coded and their garble keys and permuted values are sent to the executor. The values for the input wires belonging to the executor are obtained by the executor via Oblivious transfer with the builder. The executor is only given the permutations for the output wires, and therefore the intermediate wire bit values are protected.
+			Extended this in the natural fashion to the full circuit, the input wires belonging to the circuits Builder are hard coded and their garble keys and permuted values are sent to the executor. The values for the input wires belonging to the executor are obtained by the executor via Oblivious transfer with the builder. The executor is only given the permutations for the output wires, and therefore the intermediate wire bit values are protected.
 
 			\subsubsection{Free XOR Improvement}
 
@@ -488,11 +490,11 @@
 
 				Then if we have an XOR gate that takes two input gates. Suppose the output keys of the input wires to be $\{X_0, X_1 = X_0 \oplus R\}$ and $\{Y_0, Y_1 = Y_0 \oplus R\}$. Then we take the output keys of the XOR gate to be $Z_0 := X_0 \oplus Y_0$ and $Z_1 := Z_0 \oplus R$.\\
 
-				Then to evaluate a 2-to-1 XOR gate one only need to XOR the input keys. This removes any need for symmetric decryption when evaluating a gate.\\
+				Then to evaluate a 2-to-1 XOR gate one only need to XOR the input keys. This removes the symmetric decryptions when evaluating such a gate.\\
 
 				To understand why this works it may be helpful to think of the $R$ factor as being the indicator of a $1$. Therefore if both inputs are lacking the $R$ factor or both have it then the XOR eliminates it and the output also lacks the $R$ factor.\\
 
-				However, if the input bits are different then only one of input key contains the $R$ factor, as such the XOR preserves it in the output. This can be seen in Figure \ref{table:FREE_XOR_Demonstration}.
+				However, if the input bits are different then only one of input key contains the $R$ factor, as such the XOR preserves it in the output. This can be seen in Figure \ref{table:FREE_XOR_Demonstration}.\\
 % 
 				\begin{figure}[!ht]
 					\begin{center}
@@ -508,12 +510,12 @@
 					\caption{A tabulation of an XOR gate demonstrating that if all keys are of the Free-XOR form then an XOR gate can be evaluated by simply XORing the input keys. \label{table:FREE_XOR_Demonstration}}
 				\end{figure}
 
-				This does not only improve evaluation time for circuits though, it also removes the need to send the encrypted truth table for any gate for which Free-XOR can be used to evaluate. These encrypted truth tables are the main contributor to bandwidth for sending circuits and so this would yield significant improvements. However, we have not implemented this addition optimisation, on the evaluation optimisation.
+				This does not only improve evaluation time for circuits though, it also removes the need to send the encrypted truth table for any gate for which Free-XOR can be used to evaluate. These encrypted truth tables are the main contributor to bandwidth for sending circuits and so this would yield significant improvements. However, we have not implemented this addition optimisation. Rather we have only implemented the evaluation optimisation.
 
 		\subsection{Security of Yao Garbled Circuits} \label{sub:YaoSecurity}
 			A naive implementation of a protocol using Yao Garbled Circuits provides only Semi-honest security. For a formal proof of Semi-honest security see \cite{ProofOfYaoSecurity}, we shall briefly give an intuitive explanation of why naive Yao Garbled Circuits are not secure in the presence of Malicious or Covert adversaries.\\
 
-			Consider the case where $P_1$ is Malicious, at no point does a naive $P_2$ verify that the garbled circuit provided by the Builder actually computes the function the builder claims it does.\\
+			Consider the case where $P_1$ is Malicious, at no point does a naive $P_2$ verify that the garbled circuit provided by the Builder actually computes the function the Builder claims it does.\\
 
 			Whilst the Executor can check that the garbled circuit has the correct ``shape'' (number of gates, wires between gates etc.) the Executor cannot verified that each gate has the correct output. This clearly breaks the Correctness requirement and depending on the function being computed and the structure of the circuit corresponding to it, the Builder can craft a garbled circuit to undermine the Privacy or Independence of Input properties.\\
 
@@ -524,7 +526,9 @@
 			\subsubsection{Concept}
 				Several extensions of Yao's original protocol have been proposed in order to achieve security against Malicious and Covert adversaries. Many depend on an approach dubbed ``cut and choose'' which provides statistical security (detects cheating with a certain probability).\\
 
-				This relates to the old solution to dividing a cake fairly between two parties. Neither trusts the other so neither is willing to let the other cut a piece for themselves first as they will cut an unfairly large slice. The solution is to have one party cut the cake, then the other party chooses a slice. As the cutting party goes second it is in their interest to ensure the two available slices are of equal size else the chooser will pick the bigger slice and leave the cutter with the smaller.\\
+				The other main approach is based around a paradigm referred to as `commit and prove', based around committing to a circuit then proving its correctness. All the protocols we consider in this thesis are based on the cut and choose model.\\
+
+				The name cut and choose relates to the old solution to dividing a cake fairly between two parties. Neither trusts the other so neither is willing to let the other cut a piece for themselves first as they will cut an unfairly large slice. The solution is to have one party cut the cake, then the other party chooses a slice. As the cutting party goes second it is in their interest to ensure the two available slices are of equal size else the chooser will pick the bigger slice and leave the cutter with the smaller.\\
 
 				In our case the Builder builds $S$ many garbled circuits and sends them to the Executor. A subset of these circuits are chosen to be opened for the purpose of checking if they are correct. The remaining circuits are then referred to as Evaluation circuits.\\
 
@@ -532,7 +536,7 @@
 
 				As the check-set is unknown to the Builder till they have already committed to the circuits the Builder must guess at which circuit will be in the check-set before the Executor has chosen the check-set.\\
 
-				The number of garbled circuits built ($S$) acts as a security parameter and the probability of detecting cheating is expressed in terms of $S$. For example cheating in the protocol proposed in \cite{Lindell_CnC_2013} goes undetected with probability $2^{-s}$.
+				The number of garbled circuits built ($S$) acts as a security parameter and the probability of detecting cheating is expressed in terms of $S$. For example cheating in the protocol proposed in \cite{Lindell_CnC_2013} is successful with probability $2^{-s}$.
 
 			\subsubsection{Issues}
 				Cut and Choose seems very simple conceptually, but it creates several subtle new problems to be solved.\\
@@ -1856,7 +1860,7 @@
 			\emph{PROCEED Program webpage}.
 			\url{http://www.darpa.mil/Our_Work/I2O/Programs/PROgramming_Computation_on_EncryptEd_Data_%28PROCEED%29.aspx}
 
-		\bibitem{}
+		\bibitem{Lindell_SMC_Youtube_Talks}
 			Y. Lindell,
 			\emph{Secure Two-Party Computation in Practice},
 			Lecture given at Technion-Israel Institute of Technology TCE Summer School 2013,
