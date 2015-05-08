@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.3.11)  8 MAY 2015 02:19
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.3.11)  8 MAY 2015 08:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2536,26 +2536,38 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [44]
 Appendix C.
 
+Underfull \hbox (badness 10000) in paragraph at lines 2104--2105
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2109--2110
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 2111--2112
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2116--2117
+Underfull \hbox (badness 10000) in paragraph at lines 2121--2122
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2118--2119
+Underfull \hbox (badness 10000) in paragraph at lines 2123--2124
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2128--2129
+Underfull \hbox (badness 10000) in paragraph at lines 2125--2126
 
  []
 
+[45
 
+]
 Underfull \hbox (badness 10000) in paragraph at lines 2130--2131
 
  []
@@ -2565,87 +2577,85 @@ Underfull \hbox (badness 10000) in paragraph at lines 2132--2133
 
  []
 
-[45
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 2137--2138
+Underfull \hbox (badness 10000) in paragraph at lines 2138--2139
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2139--2140
+Underfull \hbox (badness 10000) in paragraph at lines 2140--2141
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2145--2146
+Underfull \hbox (badness 10000) in paragraph at lines 2142--2143
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2147--2148
+Underfull \hbox (badness 10000) in paragraph at lines 2166--2167
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2149--2150
+Underfull \hbox (badness 10000) in paragraph at lines 2168--2169
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2173--2174
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2175--2176
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2181--2182
+Underfull \hbox (badness 10000) in paragraph at lines 2174--2175
 
  []
 
 [46]
-Underfull \hbox (badness 10000) in paragraph at lines 2183--2184
+Underfull \hbox (badness 10000) in paragraph at lines 2176--2177
 
  []
 
-Package mdframed Info: mdframed works in twoside mode on input line 2187.
+Package mdframed Info: mdframed works in twoside mode on input line 2180.
 
-Underfull \hbox (badness 10000) in paragraph at lines 2211--2212
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2213--2214
+Underfull \hbox (badness 10000) in paragraph at lines 2204--2205
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2215--2216
-
- []
-
-Package mdframed Info: mdframed works in twoside mode on input line 2220.
-
-Underfull \hbox (badness 10000) in paragraph at lines 2239--2240
+Underfull \hbox (badness 10000) in paragraph at lines 2206--2207
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2241--2242
+Underfull \hbox (badness 10000) in paragraph at lines 2208--2209
+
+ []
+
+Package mdframed Info: mdframed works in twoside mode on input line 2213.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2232--2233
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2234--2235
 
  []
 
 [47]
-Underfull \hbox (badness 10000) in paragraph at lines 2248--2249
+Underfull \hbox (badness 10000) in paragraph at lines 2241--2242
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2250--2251
+Underfull \hbox (badness 10000) in paragraph at lines 2243--2244
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2245--2246
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2247--2248
 
  []
 
@@ -2670,44 +2680,41 @@ Underfull \hbox (badness 10000) in paragraph at lines 2261--2262
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2266--2267
+Underfull \hbox (badness 10000) in paragraph at lines 2263--2264
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2268--2269
+Underfull \hbox (badness 10000) in paragraph at lines 2265--2266
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2270--2271
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2272--2273
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2274--2275
+Underfull \hbox (badness 10000) in paragraph at lines 2267--2268
 
  []
 
 [48]
-Underfull \hbox (badness 10000) in paragraph at lines 2278--2279
+Underfull \hbox (badness 10000) in paragraph at lines 2271--2272
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2289.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2282.
 [49]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 2289.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2282.
  (./Dissertation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2289.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2289.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2282.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2282.
 
-Package rerunfilecheck Info: File `Dissertation.out' has not changed.
-(rerunfilecheck)             Checksum: 6A8CBBD6ADAD8313C6BB1015A20E6907;5558.
+
+
+Package rerunfilecheck Warning: File `Dissertation.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `Dissertation.out':
+(rerunfilecheck)             Before: 6A8CBBD6ADAD8313C6BB1015A20E6907;5558
+(rerunfilecheck)             After:  6A50618DD4518D3996892D8222C53602;5490.
  ) 
 Here is how much of TeX's memory you used:
  18545 strings out of 495028
@@ -2717,21 +2724,24 @@ Here is how much of TeX's memory you used:
  9588 words of font info for 36 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  45i,26n,51p,10447b,624s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
-10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on Dissertation.pdf (55 pages, 499145 bytes).
+pdfTeX warning (dest): name{section.1.B.3} has been referenced but does not e
+xist, replaced by a fixed one
+
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on Dissertation.pdf (55 pages, 498887 bytes).
 PDF statistics:
  970 PDF objects out of 1000 (max. 8388607)
  886 compressed objects within 9 object streams

@@ -2030,7 +2030,7 @@
 				\end{itemize}
 
 		\chapter{Benchmarking components}
-			Here I give some benchmarks of key components in my implementation such as communication, ECC encryption and circuit evaluation. I include these measurements so that others intending to implement these protocols with more efficient (e.g. library supplied) components can get a rough idea of what performance improvement they can expect.
+			Here I give some benchmarks of key components in my implementation, in particular Communication and Elliptic curve group operations. I include these measurements so that others intending to implement these protocols with more efficient (e.g. library supplied) components can get a rough idea of what performance improvement they can expect.
 
 			\section{Communications}
 
@@ -2098,13 +2098,6 @@
 				\end{description}
 
 				Note that fixed point multiplications are about three times faster.
-
-
-			\section{Circuit Building}
-
-				Circuit building can be an expensive operation, furthermore as we take the re-building approach to circuit correctness checking it is carried out for each check circuit. We do not include preliminary operations (e.g. generating consistent inputs for circuits).
-
-			
 
 
 		\chapter{Implementation Details} \label{sec:ImplementationDetails}
