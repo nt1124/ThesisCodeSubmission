@@ -1,3 +1,4 @@
+// Take in the witnesses and put them in a struct for ease of use.
 struct witnessStruct *proverSetupWitnesses(int stat_SecParam, mpz_t *alphas_List)
 {
 	struct witnessStruct *witnessSet = initWitnessStruc(stat_SecParam);
@@ -14,6 +15,7 @@ struct witnessStruct *proverSetupWitnesses(int stat_SecParam, mpz_t *alphas_List
 }
 
 
+// Prover sets up for the commitments. Picks a random exponent A, stores alpha = g ^ A.
 struct alphaAndA_Struct *proverSetupCommitment_ECC(struct eccParams *params, struct eccPoint *g_0, gmp_randstate_t state)
 {
 	struct alphaAndA_Struct *alphaAndA = (struct alphaAndA_Struct*) calloc(1, sizeof(struct alphaAndA_Struct));
@@ -28,6 +30,7 @@ struct alphaAndA_Struct *proverSetupCommitment_ECC(struct eccParams *params, str
 }
 
 
+// Verifier randomly generates a C and a T, sets up its commitment to them.
 struct verifierCommitment_ECC *verifierSetupCommitment_ECC(struct eccParams *params, struct eccPoint *g_0,
 															struct eccPoint *alpha, gmp_randstate_t state)
 {
@@ -65,9 +68,12 @@ struct msgOneArrays_ECC *proverMessageOne_ECC(int stat_SecParam, struct eccParam
 		{
 			msgArray -> notI_Struct -> not_in_I_index[j_not_I] = i + 1;
 
+			// Generate a random exponent pair C and Z.
 			mpz_urandomm(msgArray -> notI_Struct -> C_array[j_not_I], state, params -> n);
 			mpz_urandomm(msgArray -> notI_Struct -> Z_array[j_not_I], state, params -> n);
 
+
+			// Compute the A share using C and Z
 			topHalf = windowedScalarPoint(msgArray -> notI_Struct -> Z_array[j_not_I], g_0, params);
 			bottomHalf = windowedScalarPoint(msgArray -> notI_Struct -> C_array[j_not_I], h_0_List[i], params);
 			msgArray -> A_array[i] = invertPoint(bottomHalf, params);
@@ -76,6 +82,8 @@ struct msgOneArrays_ECC *proverMessageOne_ECC(int stat_SecParam, struct eccParam
 			clearECC_Point(topHalf);
 			clearECC_Point(bottomHalf);
 
+
+			// Compute the B share using C and Z
 			topHalf = windowedScalarPoint(msgArray -> notI_Struct -> Z_array[j_not_I], g_1, params);
 			bottomHalf = windowedScalarPoint(msgArray -> notI_Struct -> C_array[j_not_I], h_1_List[i], params);
 			msgArray -> B_array[i] = invertPoint(bottomHalf, params);
@@ -88,6 +96,7 @@ struct msgOneArrays_ECC *proverMessageOne_ECC(int stat_SecParam, struct eccParam
 		}
 		else
 		{
+			// Raise the A and B to the power of a random (and stored) exponent
 			msgArray -> in_I_index[j_in_I] = i + 1;
 
 			mpz_urandomm(msgArray -> roeArray[j_in_I], state, params -> n);
@@ -104,6 +113,7 @@ struct msgOneArrays_ECC *proverMessageOne_ECC(int stat_SecParam, struct eccParam
 }
 
 
+// Verifier serialises it's C and T. (Having already sent the C_Commit to the prover).
 unsigned char *verifierQuery_ECC(struct verifierCommitment_ECC *commitment_box, int *outputLen)
 {
 	unsigned char *commBuffer;
@@ -123,6 +133,7 @@ unsigned char *verifierQuery_ECC(struct verifierCommitment_ECC *commitment_box, 
 }
 
 
+// Prover checks the C it just got from Verifier opens the C commit.
 int checkC_prover_ECC(struct eccParams *params, struct eccPoint *g_0, struct verifierCommitment_ECC *commitment_box, struct eccPoint *alpha)
 {
 	struct eccPoint *checkC, *temp1;
@@ -145,6 +156,7 @@ int checkC_prover_ECC(struct eccParams *params, struct eccPoint *g_0, struct ver
 }
 
 
+// Prover computes the Zs to send and serialises them for sending.
 unsigned char *computeAndSerialise_ECC(struct eccParams *params, int stat_SecParam, unsigned char *J_set,
 									struct msgOneArrays_ECC *msgArray, struct witnessStruct *witnessesArray,
 									mpz_t *cShares, struct alphaAndA_Struct *alphaAndA, int *outputLen)
@@ -202,6 +214,8 @@ unsigned char *computeAndSerialise_ECC(struct eccParams *params, int stat_SecPar
 }
 
 
+// Prover uses Lagrange Interpolation to generate some C-shares.
+// Then uses the computeAndSerilise function to send the Zs for these C-shares
 unsigned char *proverMessageTwo_ECC(struct eccParams *params, int stat_SecParam, unsigned char *J_set,
 								struct verifierCommitment_ECC *commitment_box, struct eccPoint *g_0,
 								struct msgOneArrays_ECC *msgArray, struct witnessStruct *witnessesArray,
@@ -251,6 +265,7 @@ unsigned char *proverMessageTwo_ECC(struct eccParams *params, int stat_SecParam,
 }
 
 
+// Verifer does the final checks to give a decision.
 int verifierChecks_ECC(struct eccParams *params, int stat_SecParam,
 					struct eccPoint *g_0, struct eccPoint *g_1,
 					struct eccPoint **h_0_List, struct eccPoint **h_1_List,
@@ -332,6 +347,7 @@ int verifierChecks_ECC(struct eccParams *params, int stat_SecParam,
 
 
 
+// Bind it all together into one function for the Prover
 void ZKPoK_Prover_ECC(int writeSocket, int readSocket, 	struct eccParams *params, int stat_SecParam,
 					struct eccPoint *g_0, struct eccPoint *g_1,
 					struct eccPoint **h_0_List, struct eccPoint **h_1_List,
@@ -393,6 +409,7 @@ void ZKPoK_Prover_ECC(int writeSocket, int readSocket, 	struct eccParams *params
 
 
 
+// Bind it all together into one function for the Verifier
 int ZKPoK_Verifier_ECC(int writeSocket, int readSocket, struct eccParams *params, int stat_SecParam,
 						struct eccPoint *g_0, struct eccPoint *g_1,
 						struct eccPoint **h_0_List, struct eccPoint **h_1_List,
@@ -458,7 +475,7 @@ int ZKPoK_Verifier_ECC(int writeSocket, int readSocket, struct eccParams *params
 }
 
 
-
+// For debugging.
 void test_ZKPoK_ECC()
 {
 	struct params_CnC_ECC *params_P,  *params_V;

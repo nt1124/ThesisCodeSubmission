@@ -127,9 +127,9 @@ Here we give a short summary of each folder/file included in our implementation 
 
 		- cryptoUtil.(c/h) : Utils source code, binds all the crypto together, 
 
-		- gmpUtils.c : Utilities for GNU Multi-precision arithmetic library. In particular MPZ serialisation.
+		- gmpUtils.c : Utilities for GNU Multi-precision arithmetic library. In particular MPZ serialisation/deserialisation.
 
-		- randUtils.c : Utilities generating .
+		- randUtils.c : Utilities generating random byte strings mostly, GMP randomness utils are in the gmp utils file.
 
 		- aes.(cpp/h) :  AES source code, mostly written by Dr. Dan Page, some addition work done by me.
 

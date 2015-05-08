@@ -1,3 +1,4 @@
+// Take in the witnesses and put them in a struct for ease of use.
 struct witnessStruct *proverSetupWitnesses(struct params_CnC *params)
 {
 	struct witnessStruct *witnessSet = initWitnessStruc(params -> crs -> stat_SecParam);
@@ -14,6 +15,7 @@ struct witnessStruct *proverSetupWitnesses(struct params_CnC *params)
 }
 
 
+// Prover sets up for the commitments. Picks a random exponent A, stores alpha = g ^ A.
 mpz_t *proverSetupCommitment(struct params_CnC *params, struct witnessStruct *witnessSet, gmp_randstate_t state)
 {
 	mpz_t *alphaAndA = (mpz_t*) calloc(2, sizeof(mpz_t));
@@ -30,6 +32,7 @@ mpz_t *proverSetupCommitment(struct params_CnC *params, struct witnessStruct *wi
 }
 
 
+// Verifier randomly generates a C and a T, sets up its commitment to them.
 struct verifierCommitment *verifierSetupCommitment(struct params_CnC *params, mpz_t alpha, gmp_randstate_t state)
 {
 	struct verifierCommitment *commitment_box = initVerifierCommitment();
@@ -55,6 +58,7 @@ struct verifierCommitment *verifierSetupCommitment(struct params_CnC *params, mp
 
 
 
+// First main round of Prover communications.
 struct msgOneArrays *proverMessageOne(struct params_CnC *params, mpz_t alpha, gmp_randstate_t state)
 {
 	struct msgOneArrays *msgArray = initMsgOneArray(params -> crs -> stat_SecParam);
@@ -68,23 +72,26 @@ struct msgOneArrays *proverMessageOne(struct params_CnC *params, mpz_t alpha, gm
 	mpz_init(unmodded);
 	mpz_init(temp);
 
-
+	// For each circuit
 	for(i = 0; i < params -> crs -> stat_SecParam; i ++)
 	{
-		// If i IS in I
+		// If i IS NOT in the J-set (Eval circuit)
 		if(0x00 == params -> crs -> J_set[i])
 		{
 			msgArray -> notI_Struct -> not_in_I_index[j_not_I] = i + 1;
 
+			// Generate a random exponent pair C and Z.
 			mpz_urandomm(msgArray -> notI_Struct -> C_array[j_not_I], state, params -> group -> q);
 			mpz_urandomm(msgArray -> notI_Struct -> Z_array[j_not_I], state, params -> group -> q);
-			
+
+			// Compute the A share using C and Z
 			mpz_powm(topHalf, params -> group -> g, msgArray -> notI_Struct -> Z_array[j_not_I], params -> group -> p);
 			mpz_powm(bottomHalf, params -> crs -> h_0_List[i], msgArray -> notI_Struct -> C_array[j_not_I], params -> group -> p);
 			mpz_invert(bottomHalf_inv, bottomHalf, params -> group -> p);
 			mpz_mul(unmodded, topHalf, bottomHalf_inv);
 			mpz_mod(msgArray -> A_array[i], unmodded, params -> group -> p);
 
+			// Compute the B share using C and Z
 			mpz_powm(topHalf, params -> crs -> g_1, msgArray -> notI_Struct -> Z_array[j_not_I], params -> group -> p);
 			mpz_powm(bottomHalf, params -> crs -> h_1_List[i], msgArray -> notI_Struct -> C_array[j_not_I], params -> group -> p);
 			mpz_invert(bottomHalf_inv, bottomHalf, params -> group -> p);
@@ -97,8 +104,10 @@ struct msgOneArrays *proverMessageOne(struct params_CnC *params, mpz_t alpha, gm
 		{
 			msgArray -> in_I_index[j_in_I] = i + 1;
 
+			// Generate a random exponent
 			mpz_urandomm(msgArray -> roeArray[j_in_I], state, params -> group -> q);
 
+			// Raise the A and B to the power of exponent
 			mpz_powm(msgArray -> A_array[i], params -> group -> g, msgArray -> roeArray[j_in_I], params -> group -> p);
 			mpz_powm(msgArray -> B_array[i], params -> crs -> g_1, msgArray -> roeArray[j_in_I], params -> group -> p);
 
@@ -111,6 +120,7 @@ struct msgOneArrays *proverMessageOne(struct params_CnC *params, mpz_t alpha, gm
 }
 
 
+// Verifier serialises it's C and T. (Having already sent the C_Commit to the prover).
 unsigned char *verifierQuery(struct verifierCommitment *commitment_box, int *outputLen)
 {
 	unsigned char *commBuffer;
@@ -130,6 +140,7 @@ unsigned char *verifierQuery(struct verifierCommitment *commitment_box, int *out
 }
 
 
+// Prover checks the C it just got from Verifier opens the C commit.
 int checkC_prover(struct params_CnC *params, struct verifierCommitment *commitment_box, mpz_t alpha)
 {
 	mpz_t checkC, checkC_unmodded, temp1, temp2;
@@ -154,6 +165,7 @@ int checkC_prover(struct params_CnC *params, struct verifierCommitment *commitme
 }
 
 
+// Prover computes the Zs to send and serialises them for sending.
 unsigned char *computeAndSerialise(struct params_CnC *params, struct msgOneArrays *msgArray, struct witnessStruct *witnessesArray,
 									mpz_t *cShares, mpz_t *alphaAndA, int *outputLen)
 {
@@ -207,13 +219,13 @@ unsigned char *computeAndSerialise(struct params_CnC *params, struct msgOneArray
 	*outputLen = zLength + cLength;
 
 
-	// temp = deserialiseMPZ(commBuffer, outputLen);
-
 	return commBuffer;
 }
 
 
 
+// Prover uses Lagrange Interpolation to generate some C-shares.
+// Then uses the computeAndSerilise function to send the Zs for these C-shares
 unsigned char *proverMessageTwo(struct params_CnC *params, struct verifierCommitment *commitment_box, struct msgOneArrays *msgArray,
 								struct witnessStruct *witnessesArray, mpz_t *alphaAndA, int *outputLen)
 {
@@ -253,6 +265,7 @@ unsigned char *proverMessageTwo(struct params_CnC *params, struct verifierCommit
 }
 
 
+// Verifer does the final checks to give a decision.
 int verifierChecks(struct params_CnC *params, mpz_t *Z_array, mpz_t *A_array, mpz_t *B_array,
 					mpz_t *alphaAndA, mpz_t *codewords, mpz_t c)
 {
@@ -281,10 +294,11 @@ int verifierChecks(struct params_CnC *params, mpz_t *Z_array, mpz_t *A_array, mp
 		delta_i[i] = i + 1;
 	}
 
+	// Check the shares make sense.
 	secretPoly = getPolyFromCodewords(codewords, delta_i, params -> crs -> stat_SecParam / 2 + 1, params -> group -> q);
 	finalDecision = testSecretScheme(secretPoly, c, params -> group -> q, (params -> crs -> stat_SecParam / 2) + 1, params -> crs -> stat_SecParam);
-	// finalDecision = testSecretScheme(secretPoly, c, params -> group -> q, params -> crs -> stat_SecParam / 2, params -> crs -> stat_SecParam);
 
+	// Check all the A/B values.
 	for(i = 0; i < params -> crs -> stat_SecParam; i ++)
 	{
 		mpz_init(A_check_array[i]);
@@ -308,7 +322,6 @@ int verifierChecks(struct params_CnC *params, mpz_t *Z_array, mpz_t *A_array, mp
 	}
 
 
-	// printf("%d  -  %d  -  %d\n", alphaCheck, AB_check, finalDecision);
 	finalDecision |= AB_check;
 	finalDecision |= alphaCheck;
 
@@ -316,7 +329,7 @@ int verifierChecks(struct params_CnC *params, mpz_t *Z_array, mpz_t *A_array, mp
 }
 
 
-
+// Bind it all together into one function for the Prover
 void ZKPoK_Prover(int writeSocket, int readSocket, struct params_CnC *params_P, gmp_randstate_t *state)
 {
 	struct witnessStruct *witnessSet;
@@ -368,6 +381,7 @@ void ZKPoK_Prover(int writeSocket, int readSocket, struct params_CnC *params_P, 
 }
 
 
+// Bind it all together into one function for the Verifier.
 int ZKPoK_Verifier(int writeSocket, int readSocket, struct params_CnC *params_V, gmp_randstate_t *state)
 {
 	mpz_t *alphaAndA_V = (mpz_t*) calloc(2, sizeof(mpz_t)), *tempMPZ;
@@ -427,6 +441,7 @@ int ZKPoK_Verifier(int writeSocket, int readSocket, struct params_CnC *params_V,
 
 
 
+// Testing function
 int test_ZKPoK()
 {
 	struct params_CnC *params_P,  *params_V;
